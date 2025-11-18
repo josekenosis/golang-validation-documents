@@ -3,7 +3,6 @@ package utils
 import (
 	"regexp"
 	"strconv"
-	"strings"
 )
 
 func ValidateCPF(cpf string) bool {
