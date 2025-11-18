@@ -227,15 +227,40 @@ Remove um documento (soft delete).
 
 ## Testes
 
-Execute os testes unitários:
+Execute os testes unitários de forma simples:
+
+### Usando Make (Recomendado - mais simples)
+
+```bash
+make test          # Executa todos os testes
+make coverage      # Executa testes com cobertura
+make test-verbose  # Executa testes com output detalhado
+make test-utils    # Executa apenas testes do pacote utils
+make test-service  # Executa apenas testes do pacote service
+make help          # Mostra todos os comandos disponíveis
+```
+
+### Comandos Docker diretos (alternativa)
+
+Se preferir não usar Make, você pode rodar diretamente:
+
+```bash
+# Executar todos os testes
+docker run --rm -v "$(pwd)":/app -w /app golang:1.23-alpine go test ./...
+
+# Executar testes com cobertura
+docker run --rm -v "$(pwd)":/app -w /app golang:1.23-alpine go test -cover ./...
+
+# Executar testes com output detalhado
+docker run --rm -v "$(pwd)":/app -w /app golang:1.23-alpine go test -v ./...
+```
+
+### Desenvolvimento Local (com Go instalado)
+
+Se você tiver Go instalado na sua máquina:
 
 ```bash
 go test ./...
-```
-
-Para ver a cobertura de testes:
-
-```bash
 go test -cover ./...
 ```
 

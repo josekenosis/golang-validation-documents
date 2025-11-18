@@ -88,3 +88,50 @@ func TestGetDocumentType(t *testing.T) {
 	}
 }
 
+func TestCleanDocument(t *testing.T) {
+	tests := []struct {
+		name string
+		doc  string
+		want string
+	}{
+		{"CPF with formatting", "111.444.777-35", "11144477735"},
+		{"CNPJ with formatting", "11.222.333/0001-81", "11222333000181"},
+		{"CPF without formatting", "11144477735", "11144477735"},
+		{"CNPJ without formatting", "11222333000181", "11222333000181"},
+		{"empty string", "", ""},
+		{"with spaces", "111 444 777 35", "11144477735"},
+		{"with special chars", "111-444-777-35", "11144477735"},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := CleanDocument(tt.doc); got != tt.want {
+				t.Errorf("CleanDocument() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestFormatDocument(t *testing.T) {
+	tests := []struct {
+		name string
+		doc  string
+		want string
+	}{
+		{"CPF without formatting", "11144477735", "111.444.777-35"},
+		{"CPF with formatting", "111.444.777-35", "111.444.777-35"},
+		{"CNPJ without formatting", "11222333000181", "11.222.333/0001-81"},
+		{"CNPJ with formatting", "11.222.333/0001-81", "11.222.333/0001-81"},
+		{"invalid length", "123", "123"},
+		{"empty string", "", ""},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := FormatDocument(tt.doc); got != tt.want {
+				t.Errorf("FormatDocument() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
